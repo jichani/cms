@@ -1,25 +1,22 @@
 <?php
-    $id = $_GET["id"];
+$id = $_GET["id"];
 
-    $pass = $_POST["pass"];
-    $name = $_POST["name"];
-    $email1  = $_POST["email1"];
-    $email2  = $_POST["email2"];
+$pass = $_POST["pass"];
+$name = $_POST["name"];
+$email1  = $_POST["email1"];
+$email2  = $_POST["email2"];
 
-    $email = $email1."@".$email2;
-          
-    $con = mysqli_connect("localhost", "user1", "12345", "sample");
-    $sql = "update members set pass='$pass', name='$name' , email='$email'";
-    $sql .= " where id='$id'";
-    mysqli_query($con, $sql);
+$email = $email1 . "@" . $email2;
 
-    mysqli_close($con);     
+$con = mysqli_connect("localhost", "user1", "12345", "sample");
+$sql = "update members set pass='$pass', name='$name' , email='$email'";
+$sql .= " where id='$id'";
+mysqli_query($con, $sql);
 
-    echo "
+mysqli_close($con);
+
+echo "
 	      <script>
 	          location.href = 'index.php';
 	      </script>
 	  ";
-?>
-
-   
