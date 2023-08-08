@@ -14,22 +14,55 @@ $profileModel = getProfile($accessToken, $state);
 //mysqli_connect("localhost", "user1", "12345", "sample")
 $con = $mysqlConnect;
 
-$regist_day = date("Y-m-d (H:i)");
-$sql = "insert into members(id, pass, name, email, regist_day, level, point,login_div)";
-$sql .= "values('$profileModel->email', '$profileModel->uid', '$profileModel->nickname', '$profileModel->email', '$regist_day', 9, 0,'$state')";
+// DB에 이메일이 있는 지 검색
+$sql = "select * from members where email='$profileModel->email'";
 
-mysqli_query($con, $sql);
-mysqli_close($con);
+// sql 실행
+$result = mysqli_query($con, $sql);
+// 결과 값에 대한 카운트 수
+$num_record = mysqli_num_rows($result);
 
-session_start();
-$_SESSION["userid"] = $profileModel->email;
-$_SESSION["username"] = $profileModel->nickname;
-$_SESSION["userlevel"] = "9";
-$_SESSION["userpoint"] = "0";
-$_SESSION["state"] = $state;
+// db에 데이터가 존재할 때
+if ($num_record != 0) {
+  $row = mysqli_fetch_array($result);
 
-echo ("
-  <script>
-  location.href = 'index.php'
-  </script>
-");
+  // 세션 저장
+  session_start();
+  $_SESSION["userid"] = $row['id'];
+  $_SESSION["username"] = $row['name'];
+  $_SESSION["userlevel"] = $row['lebel'];
+  $_SESSION["userpoint"] = $row['point'];
+  $_SESSION["state"] = $state;
+
+  // 홈 화면으로 이동
+  echo ("
+    <script>
+    location.href = 'index.php'
+    </script>
+  ");
+
+  // DB에 데이터가 없을 때 
+} else {
+  // DB 저장
+  $regist_day = date("Y-m-d (H:i)");
+  $sql = "insert into members(id, pass, name, email, regist_day, level, point,login_div)";
+  $sql .= "values('$profileModel->email', '$profileModel->uid', '$profileModel->nickname', '$profileModel->email', '$regist_day', 9, 0,'$state')";
+
+  mysqli_query($con, $sql);
+  mysqli_close($con);
+
+  // 세션 저장
+  session_start();
+  $_SESSION["userid"] = $profileModel->email;
+  $_SESSION["username"] = $profileModel->nickname;
+  $_SESSION["userlevel"] = "0";
+  $_SESSION["userpoint"] = "9";
+  $_SESSION["state"] = $state;
+
+  // 홈 화면으로 이동
+  echo ("
+    <script>
+    location.href = 'index.php'
+    </script>
+  ");
+}
