@@ -35,6 +35,7 @@ include "const.php";
 						<div id="login_btn">
 							<a href="#"><img src="./img/login.png" onclick="check_input()"></a>
 							<a href=<?php echo SocialLogin::socialLoginUrl("google") ?>><img src="./img/google_btn.png"></a>
+							<a href=<?php echo SocialLogin::socialLoginUrl("kakao") ?>><img src="./img/kakao_btn.png"></a>
 						</div>
 					</form>
 				</div> <!-- login_form -->
