@@ -31,6 +31,7 @@ class Car
     $this->oil = $data;
   }
 };
+
 // Car 객체에서 $morning 인스턴스 생성
 $morning = new Car("red", "morning", "3");
 

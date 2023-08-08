@@ -26,20 +26,36 @@ $num_record = mysqli_num_rows($result);
 if ($num_record != 0) {
   $row = mysqli_fetch_array($result);
 
-  // 세션 저장
-  session_start();
-  $_SESSION["userid"] = $row['id'];
-  $_SESSION["username"] = $row['name'];
-  $_SESSION["userlevel"] = $row['lebel'];
-  $_SESSION["userpoint"] = $row['point'];
-  $_SESSION["state"] = $state;
+  // 가입된 계정과 플랫폼이 일치한다면
+  if ($row['login_div'] == $state) {
+    // 세션 저장
+    session_start();
+    $_SESSION["userid"] = $row['id'];
+    $_SESSION["username"] = $row['name'];
+    $_SESSION["userlevel"] = $row['lebel'];
+    $_SESSION["userpoint"] = $row['point'];
+    $_SESSION["state"] = $state;
 
-  // 홈 화면으로 이동
-  echo ("
-    <script>
-    location.href = 'index.php'
-    </script>
-  ");
+    // 홈 화면으로 이동
+    echo ("
+      <script>
+      location.href = 'index.php'
+      </script>
+    ");
+
+    // 플랫폼이 일치하지 않는다면
+  } else {
+    // 어떤 플랫폼에서 회원가입 했는 지
+    $divValue = array("kakao" => "카카오", "naver" => "네이버", "google" => "구글");
+
+    // alert창을 이용하여 어떤 플랫폼에서 회원가입 했었는 지 알려주기
+    echo ("
+      <script>
+      alert('가입된 이메일이 존재합니다. (" . $divValue[$row['login_div']] . ")');
+      location.href = 'index.php';
+      </script>
+    ");
+  }
 
   // DB에 데이터가 없을 때 
 } else {
