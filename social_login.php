@@ -1,5 +1,6 @@
 <?php
 include_once dirname(__FILE__) . "/social_login_config.php";
+include_once dirname(__FILE__) . "/common_method.php";
 
 //a태그에서 response code 받아오기
 $code = $_GET['code'];
@@ -35,6 +36,7 @@ if ($num_record != 0) {
     $_SESSION["userlevel"] = $row['lebel'];
     $_SESSION["userpoint"] = $row['point'];
     $_SESSION["state"] = $state;
+    $_SESSION["accessToken"] = $state;
 
     // 홈 화면으로 이동
     echo ("
@@ -74,6 +76,7 @@ if ($num_record != 0) {
   $_SESSION["userlevel"] = "0";
   $_SESSION["userpoint"] = "9";
   $_SESSION["state"] = $state;
+  $_SESSION["accessToken"] = $state;
 
   // 홈 화면으로 이동
   echo ("
